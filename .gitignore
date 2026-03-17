@@ -1,6 +1,55 @@
-.idea/
+**/.env
+**/application-local.properties
+**/*.log
+logs/
+**/.DS_Store
+*~
+**/.fuse_hidden*
+**/bin/
+**/out/
+**/.idea/
+**/target/
+**/*.class
+**/*.jar
+**/.gradle/
+**/build/
+
+
+HELP.md
 target/
-*.class
-*.jar
-.gradle/
-build/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+**/.idea
+**/*.iws
+**/*.iml
+**/*.ipr
+
+### NetBeans ###
+**/nbproject/private/
+**/nbbuild/
+**/dist/
+**/nbdist/
+**/.nb-gradle/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+**/.vscode/
+
+### Spring Boot ###
+**/src/main/resources/application-local.properties
+
+### MISC ###
+**/*.swp
