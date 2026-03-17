@@ -3,7 +3,6 @@ package wins.insomnia.mcitemhunt.model.entity.runevent;
 import jakarta.annotation.Nullable;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import wins.insomnia.mcitemhunt.model.entity.ItemHuntRunEntity;
 import wins.insomnia.mcitemhunt.model.entity.ItemHuntRunEventEntity;
 
 import java.util.Map;

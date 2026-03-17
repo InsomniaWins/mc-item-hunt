@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Main api application class.
  *
  */
-
 @SpringBootApplication
 public class MinecraftItemHuntApiApplication {
 
