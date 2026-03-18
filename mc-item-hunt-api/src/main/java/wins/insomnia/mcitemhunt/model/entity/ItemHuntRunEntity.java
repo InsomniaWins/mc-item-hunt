@@ -11,6 +11,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 import wins.insomnia.mcitemhunt.model.validation.PlayerIdValidationResult;
 import wins.insomnia.mcitemhunt.model.validation.PlayerUsernameValidationResult;
 import wins.insomnia.mcitemhunt.model.validation.WorldSeedValidationResult;
@@ -57,6 +58,10 @@ public class ItemHuntRunEntity {
     private final List<ItemHuntRunEventEntity> EVENTS = new ArrayList<>();
 
     /**
+     *
+     * Gets a list of all events for this run.
+     * Remember to keep db connection open by putting the @{@link Transactional} annotation on the calling method.
+     *
      * @return An immutable {@link List} of all events in the run.
      */
     public List<ItemHuntRunEventEntity> getEvents() {

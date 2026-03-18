@@ -1,7 +1,7 @@
-package wins.insomnia.mcitemhunt.model.entity.runevent.player;
+package wins.insomnia.mcitemhunt.model.dto.runevent.player;
 
 import lombok.Getter;
-import wins.insomnia.mcitemhunt.model.entity.runevent.ItemHuntRunEvent;
+import wins.insomnia.mcitemhunt.model.dto.runevent.ItemHuntRunEvent;
 
 import java.util.Map;
 

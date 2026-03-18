@@ -1,4 +1,4 @@
-package wins.insomnia.mcitemhunt.model.entity.runevent;
+package wins.insomnia.mcitemhunt.model.dto.runevent;
 
 import jakarta.annotation.Nullable;
 
