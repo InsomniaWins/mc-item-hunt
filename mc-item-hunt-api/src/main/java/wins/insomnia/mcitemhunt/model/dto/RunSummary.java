@@ -4,5 +4,6 @@ public record RunSummary(
         Long runId,
         String playerId,
         String worldSeed,
-        Long startTime
+        Long startTime,
+        RunVerificationStatus verificationStatus
 ) {}

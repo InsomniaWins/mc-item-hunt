@@ -3,6 +3,8 @@ package wins.insomnia.mcitemhunt.model.entity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -12,6 +14,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
+import wins.insomnia.mcitemhunt.model.dto.RunVerificationStatus;
 import wins.insomnia.mcitemhunt.model.validation.PlayerIdValidationResult;
 import wins.insomnia.mcitemhunt.model.validation.PlayerUsernameValidationResult;
 import wins.insomnia.mcitemhunt.model.validation.WorldSeedValidationResult;
@@ -34,28 +37,33 @@ public class ItemHuntRunEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     @Setter
+    @Column(name = "run_id")
     private Long runId;
 
     // uuid of minecraft account
-    @Column(nullable = false, length = 36)
+    @Column(name = "player_uuid", nullable = false, length = 36)
     @Getter
     private String playerId;
 
-    @Column(nullable = false)
+    @Column(name = "player_username", nullable = false)
     @Getter
     private String playerUsername;
 
     @Getter
-    @Column(nullable = false)
+    @Column(name = "world_seed", nullable = false)
     private String worldSeed;
 
     @Setter
     @Getter
-    @Column(updatable = false)
+    @Column(name = "start_time", updatable = false)
     private Long startTime = System.currentTimeMillis();
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "verification_status")
+    private RunVerificationStatus verificationStatus = RunVerificationStatus.PENDING;
+
     @OneToMany(mappedBy = "run", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<ItemHuntRunEventEntity> EVENTS = new ArrayList<>();
+    private final List<ItemHuntRunEventEntity> events = new ArrayList<>();
 
     /**
      *
@@ -65,20 +73,20 @@ public class ItemHuntRunEntity {
      * @return An immutable {@link List} of all events in the run.
      */
     public List<ItemHuntRunEventEntity> getEvents() {
-        return Collections.unmodifiableList(EVENTS);
+        return Collections.unmodifiableList(events);
     }
 
     public int getEventAmount() {
-        return EVENTS.size();
+        return events.size();
     }
 
     public void removeEvent(ItemHuntRunEventEntity event) {
-        EVENTS.remove(event);
+        events.remove(event);
         event.setRun(null);
     }
 
     public void addEvent(ItemHuntRunEventEntity event) {
-        EVENTS.add(event);
+        events.add(event);
         event.setRun(this);
     }
 
