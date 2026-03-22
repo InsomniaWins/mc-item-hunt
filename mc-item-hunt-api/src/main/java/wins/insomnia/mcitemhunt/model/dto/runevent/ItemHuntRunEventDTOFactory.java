@@ -18,7 +18,7 @@ import java.util.function.Function;
 @Slf4j
 public class ItemHuntRunEventFactory {
 
-    private static final ConcurrentHashMap<String, Function<Map<String, Object>, ItemHuntRunEvent>> REGISTRATION_MAP = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, Function<Map<String, Object>, ItemHuntRunEventDTO>> REGISTRATION_MAP = new ConcurrentHashMap<>();
 
     /**
      * Determines if new registrations/entries are allowed.
@@ -32,7 +32,7 @@ public class ItemHuntRunEventFactory {
 
     public static void registerEvent(
             String type,
-            Function<Map<String, Object>, ItemHuntRunEvent> constructionFunction
+            Function<Map<String, Object>, ItemHuntRunEventDTO> constructionFunction
     ) throws RegistrationException {
 
         validateEventKey(type);
@@ -49,18 +49,18 @@ public class ItemHuntRunEventFactory {
     }
 
     @Nullable
-    public static ItemHuntRunEvent createEventFromDb(ItemHuntRunEventEntity entity) {
+    public static ItemHuntRunEventDTO createEventFromDb(ItemHuntRunEventEntity entity) {
         Map<String, Object> entityData = entity.getEventData();
-        entityData.put(ItemHuntRunEvent.MAP_KEY_TYPE, entity.getEventType());
+        entityData.put(ItemHuntRunEventDTO.MAP_KEY_TYPE, entity.getEventType());
         return createEvent(entityData);
     }
 
     @Nullable
-    public static ItemHuntRunEvent createEvent(Map<String, Object> objectMap) {
+    public static ItemHuntRunEventDTO createEvent(Map<String, Object> objectMap) {
         String type;
 
         try {
-            type = (String) objectMap.get(ItemHuntRunEvent.MAP_KEY_TYPE);
+            type = (String) objectMap.get(ItemHuntRunEventDTO.MAP_KEY_TYPE);
             validateEventKey(type);
         } catch (Exception exception) {
             if (exception instanceof InvalidRegistrationKeyException regException) {
@@ -71,7 +71,7 @@ public class ItemHuntRunEventFactory {
             return null;
         }
 
-        Function<Map<String, Object>, ItemHuntRunEvent> constructionFunction = REGISTRATION_MAP.get(type);
+        Function<Map<String, Object>, ItemHuntRunEventDTO> constructionFunction = REGISTRATION_MAP.get(type);
         if (constructionFunction == null) {
             log.error("Could not create event from object map! -> Event {} has not been registered.", type);
             return null;
