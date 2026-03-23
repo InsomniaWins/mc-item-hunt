@@ -2,7 +2,7 @@ package wins.insomnia.mcitemhunt.config;
 
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.context.annotation.Configuration;
-import wins.insomnia.mcitemhunt.model.dto.runevent.ItemHuntRunEventFactory;
+import wins.insomnia.mcitemhunt.model.dto.runevent.ItemHuntRunEventDTOFactory;
 
 /**
  *
@@ -13,6 +13,6 @@ import wins.insomnia.mcitemhunt.model.dto.runevent.ItemHuntRunEventFactory;
 public class FinalizeEventRegistryConfig implements SmartInitializingSingleton {
     @Override
     public void afterSingletonsInstantiated() {
-        ItemHuntRunEventFactory.finalizeRegistration();
+        ItemHuntRunEventDTOFactory.finalizeRegistration();
     }
 }

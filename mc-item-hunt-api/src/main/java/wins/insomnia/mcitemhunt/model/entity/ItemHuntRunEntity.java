@@ -58,6 +58,11 @@ public class ItemHuntRunEntity {
     @Column(name = "start_time", updatable = false)
     private Long startTime = System.currentTimeMillis();
 
+    @Setter
+    @Getter
+    @Column(name = "end_time", updatable = false)
+    private Long endTime = System.currentTimeMillis();
+
     @Enumerated(EnumType.STRING)
     @Column(name = "verification_status")
     private RunVerificationStatus verificationStatus = RunVerificationStatus.PENDING;

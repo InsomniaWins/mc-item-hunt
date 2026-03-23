@@ -1,13 +1,2 @@
 {
-  "itemGroup.itemhunt": "Example Mod Tab",
-  "block.itemhunt.example_block": "Example Block",
-  "item.itemhunt.example_item": "Example Item",
-
-  "itemhunt.configuration.title": "Item Hunt Configs",
-  "itemhunt.configuration.section.itemhunt.common.toml": "Item Hunt Configs",
-  "itemhunt.configuration.section.itemhunt.common.toml.title": "Item Hunt Configs",
-  "itemhunt.configuration.items": "Item List",
-  "itemhunt.configuration.logDirtBlock": "Log Dirt Block",
-  "itemhunt.configuration.magicNumberIntroduction": "Magic Number Text",
-  "itemhunt.configuration.magicNumber": "Magic Number"
 }

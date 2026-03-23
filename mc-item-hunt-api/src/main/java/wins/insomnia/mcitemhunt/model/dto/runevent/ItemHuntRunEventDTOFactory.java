@@ -16,7 +16,7 @@ import java.util.function.Function;
  *
  */
 @Slf4j
-public class ItemHuntRunEventFactory {
+public class ItemHuntRunEventDTOFactory {
 
     private static final ConcurrentHashMap<String, Function<Map<String, Object>, ItemHuntRunEventDTO>> REGISTRATION_MAP = new ConcurrentHashMap<>();
 

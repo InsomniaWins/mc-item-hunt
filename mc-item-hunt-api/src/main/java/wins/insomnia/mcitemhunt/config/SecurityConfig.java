@@ -19,8 +19,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth
                                 .requestMatchers("/api/itemhunt/admin/**").authenticated()
-                                .requestMatchers(HttpMethod.GET, "/api/itemhunt/**").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/api/itemhunt/**").authenticated()
+                                .requestMatchers("/api/itemhunt/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults());

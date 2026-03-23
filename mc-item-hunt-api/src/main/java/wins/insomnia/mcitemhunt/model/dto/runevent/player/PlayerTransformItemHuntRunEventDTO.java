@@ -1,11 +1,11 @@
 package wins.insomnia.mcitemhunt.model.dto.runevent.player;
 
 import lombok.Getter;
-import wins.insomnia.mcitemhunt.model.dto.runevent.ItemHuntRunEvent;
+import wins.insomnia.mcitemhunt.model.dto.runevent.ItemHuntRunEventDTO;
 
 import java.util.Map;
 
-public class PlayerTransformItemHuntRunEvent extends ItemHuntRunEvent {
+public class PlayerTransformItemHuntRunEventDTO extends ItemHuntRunEventDTO {
 
     public static String TYPE = "player_transform";
 
@@ -20,7 +20,7 @@ public class PlayerTransformItemHuntRunEvent extends ItemHuntRunEvent {
     @Getter
     private double yaw;
 
-    public PlayerTransformItemHuntRunEvent(Map<String, Object> objectMap) {
+    public PlayerTransformItemHuntRunEventDTO(Map<String, Object> objectMap) {
         super(objectMap);
     }
 

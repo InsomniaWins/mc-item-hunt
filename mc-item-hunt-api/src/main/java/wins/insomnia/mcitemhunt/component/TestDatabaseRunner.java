@@ -5,13 +5,12 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
 import wins.insomnia.mcitemhunt.model.repository.ItemHuntRunRepository;
 import wins.insomnia.mcitemhunt.model.entity.ItemHuntRunEntity;
 import wins.insomnia.mcitemhunt.model.entity.ItemHuntRunEventEntity;
-import wins.insomnia.mcitemhunt.model.dto.runevent.ItemHuntRunEvent;
-import wins.insomnia.mcitemhunt.model.dto.runevent.ItemHuntRunEventFactory;
-import wins.insomnia.mcitemhunt.model.dto.runevent.player.PlayerTransformItemHuntRunEvent;
+import wins.insomnia.mcitemhunt.model.dto.runevent.ItemHuntRunEventDTO;
+import wins.insomnia.mcitemhunt.model.dto.runevent.ItemHuntRunEventDTOFactory;
+import wins.insomnia.mcitemhunt.model.dto.runevent.player.PlayerTransformItemHuntRunEventDTO;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,9 +40,9 @@ public class TestDatabaseRunner implements CommandLineRunner {
         run.setStartTime(System.currentTimeMillis());
         run.setWorldSeed("sample world seed");
 
-        ItemHuntRunEvent testEvent = ItemHuntRunEventFactory.createEvent(
+        ItemHuntRunEventDTO testEvent = ItemHuntRunEventDTOFactory.createEvent(
                 new HashMap<>(Map.of(
-                        "type", PlayerTransformItemHuntRunEvent.TYPE,
+                        "type", PlayerTransformItemHuntRunEventDTO.TYPE,
                         "x", 1.0,
                         "y", 1.0,
                         "z", 1.0,
@@ -81,7 +80,7 @@ public class TestDatabaseRunner implements CommandLineRunner {
 
             System.out.println("Events for run #" + run.getRunId() + ":");
             for (ItemHuntRunEventEntity eventEntity : runEventEntities) {
-                ItemHuntRunEvent event = ItemHuntRunEventFactory.createEventFromDb(eventEntity);
+                ItemHuntRunEventDTO event = ItemHuntRunEventDTOFactory.createEventFromDb(eventEntity);
                 if (event == null) {
                     System.out.println("Null event!");
                     continue;

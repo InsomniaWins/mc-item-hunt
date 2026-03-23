@@ -1,6 +1,8 @@
 package wins.insomnia.mcitemhunt.model.dto.runevent;
 
 import jakarta.annotation.Nullable;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +17,7 @@ import java.util.Map;
  * </p>
  *
  */
-public abstract class ItemHuntRunEvent {
+public abstract class ItemHuntRunEventDTO {
 
     /**
      * The key string in the json object map that determines the type of event object to construct.
@@ -26,7 +28,11 @@ public abstract class ItemHuntRunEvent {
     public abstract void readObjectMap(Map<String, Object> objectMap);
     public abstract void writeObjectMap(Map<String, Object> objectMap);
 
-    public ItemHuntRunEvent(Map<String, Object> objectMap) {
+    @Getter
+    @Setter
+    private Long eventTimestamp;
+
+    public ItemHuntRunEventDTO(Map<String, Object> objectMap) {
         readObjectMap(objectMap);
     }
 
@@ -49,14 +55,14 @@ public abstract class ItemHuntRunEvent {
 
     /**
      *
-     * Constructs an {@link ItemHuntRunEvent} object from the objectMap's data.
+     * Constructs an {@link ItemHuntRunEventDTO} object from the objectMap's data.
      *
      * @param objectMap A {@link Map} holding data for the event object to read.
-     * @return An {@link ItemHuntRunEvent} object constructed from the objectMap's data.
+     * @return An {@link ItemHuntRunEventDTO} object constructed from the objectMap's data.
      */
     @Nullable
-    public static ItemHuntRunEvent fromObjectMap(Map<String, Object> objectMap) {
-        return ItemHuntRunEventFactory.createEvent(objectMap);
+    public static ItemHuntRunEventDTO fromObjectMap(Map<String, Object> objectMap) {
+        return ItemHuntRunEventDTOFactory.createEvent(objectMap);
     }
     //endregion
 

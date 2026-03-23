@@ -2,21 +2,35 @@ package wins.insomnia.mcitemhunt.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import wins.insomnia.mcitemhunt.model.dto.runevent.ItemHuntRunEventDTO;
+import wins.insomnia.mcitemhunt.model.validation.PlayerUsernameValidationResult;
+
+import java.util.ArrayList;
 
 @Getter
 @Setter
 public class ItemHuntRunDTO {
 
+    /**
+     * Used to verify the user updating this run is the owner of the run.
+     * Is NULL when run is finalized.
+     */
+    private String sessionToken = null;
     private String playerId;
     private String worldSeed;
-    /**
-     * The username of the player. Only fetch the username right before saving into the db.
-     * If any dev sees this, and you're considering setting this: DON'T. (Unless you know what
-     * you're doing.) It likely auto-sets already at some point.
-     */
     private String playerUsername;
+    private Long startTime;
+    private Long endTime;
+    private RunVerificationStatus verificationStatus;
+    private final ArrayList<ItemHuntRunEventDTO> events = new ArrayList<>();
 
-    // start time is grabbed when run is entered into the db
-    //private Long startTime;
+    public boolean hasUsername() {
+        return playerUsername != null
+                && !playerUsername.isEmpty()
+                && PlayerUsernameValidationResult.VALID == PlayerUsernameValidationResult.isValidPlayerUsername(playerUsername);
+    }
 
+    public boolean hasSessionToken() {
+        return sessionToken != null;
+    }
 }
