@@ -16,10 +16,24 @@ import java.util.concurrent.CompletableFuture;
  */
 public class ItemHuntAPIAuthenticator {
 
+    /**
+     * The base url for the api. TODO: Should be changed through config file in the future.
+     */
     private static final String API_URL = "http://localhost:8080/api/itemhunt";
+    /**
+     * The http client used to communicate with the api.
+     */
     private static final HttpClient HTTP_CLIENT = HttpClient.newHttpClient();
+    /**
+     * Used to communicate with api to prove this is a real account.
+     * Remains valid for 24 hours at most.
+     * Invalidates after user does not communicate with the api for an hour.
+     */
     private static String sessionToken = null;
 
+    /**
+     * @return Boolean describing the state of the value of the sessionToken.
+     */
     public boolean hasSessionToken() {
         return sessionToken != null;
     }
@@ -43,10 +57,16 @@ public class ItemHuntAPIAuthenticator {
                 .thenApply(HttpResponse::body);
     }
 
+    /**
+     * @return Player's uuid without any hyphens.
+     */
     public static String getTrimmedPlayerId() {
         return Minecraft.getInstance().getUser().getProfileId().toString().replace("-", "");
     }
 
+    /**
+     * Begins the process of getting a session token with the api.
+     */
     public static void authenticateApiConnection() {
 
         String playerId = getTrimmedPlayerId();
@@ -54,7 +74,6 @@ public class ItemHuntAPIAuthenticator {
         fetchServerId(playerId).thenAccept(serverId -> {
 
             serverId = serverId.trim();
-            System.out.println("Got authenticated server id from api: " + serverId);
             authenticateWithMojang(serverId);
 
         }).exceptionally(exception -> {
@@ -63,6 +82,10 @@ public class ItemHuntAPIAuthenticator {
         });
     }
 
+    /**
+     * Tells Mojang api the mod wants to tell the api that this is an official account,
+     * @param serverId The server id returned from the api to give to Mojang.
+     */
     private static void authenticateWithMojang(String serverId) {
 
         Minecraft minecraft = Minecraft.getInstance();
@@ -85,6 +108,10 @@ public class ItemHuntAPIAuthenticator {
 
     }
 
+    /**
+     * Final step in authentication. Gets the api session token for further communication.
+     * @param serverId The server id returned from the api.
+     */
     private static void finalizeApiAuthentication(String serverId) {
 
         String playerId = getTrimmedPlayerId();
@@ -98,7 +125,7 @@ public class ItemHuntAPIAuthenticator {
                 .thenAccept(response -> {
                     if (response.statusCode() == 200) {
                         sessionToken = response.body();
-                        System.out.println("Session Authenticated! Token stored.");
+                        ItemHunt.LOGGER.info("Successfully authenticated api connection! Token stored!");
                     } else {
                         System.err.println(
                                 "Authentication failed at API: \n"

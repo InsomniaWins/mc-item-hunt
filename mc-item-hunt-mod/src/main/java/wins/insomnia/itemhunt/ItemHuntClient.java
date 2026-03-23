@@ -19,8 +19,6 @@ public class ItemHuntClient {
 
     @SubscribeEvent
     static void onClientSetup(FMLClientSetupEvent event) {
-
         ItemHuntAPIAuthenticator.authenticateApiConnection();
-
     }
 }
