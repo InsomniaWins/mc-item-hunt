@@ -11,11 +11,6 @@ import java.util.ArrayList;
 @Setter
 public class ItemHuntRunDTO {
 
-    /**
-     * Used to verify the user updating this run is the owner of the run.
-     * Is NULL when run is finalized.
-     */
-    private String sessionToken = null;
     private String playerId;
     private String worldSeed;
     private String playerUsername;
@@ -30,7 +25,4 @@ public class ItemHuntRunDTO {
                 && PlayerUsernameValidationResult.VALID == PlayerUsernameValidationResult.isValidPlayerUsername(playerUsername);
     }
 
-    public boolean hasSessionToken() {
-        return sessionToken != null;
-    }
 }

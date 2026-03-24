@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,7 @@ import wins.insomnia.mcitemhunt.model.dto.runevent.ItemHuntRunEventDTO;
 import wins.insomnia.mcitemhunt.model.entity.ItemHuntRunEntity;
 import wins.insomnia.mcitemhunt.model.service.ItemHuntService;
 import wins.insomnia.mcitemhunt.model.service.MojangService;
+import wins.insomnia.mcitemhunt.model.validation.ItemHuntValidation;
 
 import java.security.SecureRandom;
 import java.util.List;
@@ -109,7 +111,29 @@ public class ItemHuntController {
     }
 
     @PostMapping("/start-run")
-    public ResponseEntity<String> startRun(@RequestBody ItemHuntRunDTO runData) {
+    public ResponseEntity<String> startRun(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @RequestBody ItemHuntRunDTO runData
+    ) {
+
+        // check if session is valid
+        String sessionToken = authorizationHeader.replace("Bearer ", "");
+        if (!activeRunsManager.isValidSession(runData.getPlayerId(), sessionToken)) {
+            log.warn("Unauthorized attempt to start the run for player: {}", runData.getPlayerId());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                    "Invalid or expired session token."
+            );
+        }
+
+        // check if dto has proper fields for starting a run
+        if (!ItemHuntValidation.validateStartRun(runData).isValid()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    "Start run body is missing data required to start a run!"
+            );
+        }
+
+
+        // start run
         itemHuntService.startNewRun(runData);
         return ResponseEntity.ok("Run started for " + runData.getPlayerId());
     }

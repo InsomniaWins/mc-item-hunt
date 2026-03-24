@@ -1,8 +1,9 @@
-package wins.insomnia.itemhunt;
+package wins.insomnia.itemhunt.api;
 
 import com.mojang.authlib.exceptions.AuthenticationException;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
 import net.minecraft.client.Minecraft;
+import wins.insomnia.itemhunt.ItemHunt;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -17,14 +18,6 @@ import java.util.concurrent.CompletableFuture;
 public class ItemHuntAPIAuthenticator {
 
     /**
-     * The base url for the api. TODO: Should be changed through config file in the future.
-     */
-    private static final String API_URL = "http://localhost:8080/api/itemhunt";
-    /**
-     * The http client used to communicate with the api.
-     */
-    private static final HttpClient HTTP_CLIENT = HttpClient.newHttpClient();
-    /**
      * Used to communicate with api to prove this is a real account.
      * Remains valid for 24 hours at most.
      * Invalidates after user does not communicate with the api for an hour.
@@ -34,7 +27,7 @@ public class ItemHuntAPIAuthenticator {
     /**
      * @return Boolean describing the state of the value of the sessionToken.
      */
-    public boolean hasSessionToken() {
+    public static boolean hasSessionToken() {
         return sessionToken != null;
     }
 
@@ -49,11 +42,11 @@ public class ItemHuntAPIAuthenticator {
      */
     public static CompletableFuture<String> fetchServerId(String playerId) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(API_URL + "/auth/request-id?playerId=" + playerId))
+                .uri(URI.create(ItemHuntAPICommunication.getApiUrl() + "/auth/request-id?playerId=" + playerId))
                 .GET()
                 .build();
 
-        return HTTP_CLIENT.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+        return getHttpClient().sendAsync(request, HttpResponse.BodyHandlers.ofString())
                 .thenApply(HttpResponse::body);
     }
 
@@ -117,11 +110,11 @@ public class ItemHuntAPIAuthenticator {
         String playerId = getTrimmedPlayerId();
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(API_URL + "/auth/verify?serverId=" + serverId + "&playerId=" + playerId))
+                .uri(URI.create(ItemHuntAPICommunication.getApiUrl() + "/auth/verify?serverId=" + serverId + "&playerId=" + playerId))
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
 
-        HTTP_CLIENT.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+        getHttpClient().sendAsync(request, HttpResponse.BodyHandlers.ofString())
                 .thenAccept(response -> {
                     if (response.statusCode() == 200) {
                         sessionToken = response.body();
@@ -137,6 +130,12 @@ public class ItemHuntAPIAuthenticator {
 
     }
 
+    public static String getSessionToken() {
+        return sessionToken;
+    }
 
+    public static HttpClient getHttpClient() {
+        return ItemHuntAPICommunication.getHttpClient();
+    }
 
 }

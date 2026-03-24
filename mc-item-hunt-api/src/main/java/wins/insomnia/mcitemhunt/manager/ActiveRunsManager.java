@@ -117,10 +117,11 @@ public class ActiveRunsManager {
      * @param sessionToken
      * @return
      */
-    public boolean validateSession(String playerId, String sessionToken) {
+    public boolean isValidSession(String playerId, String sessionToken) {
         if (!hasValidSession(playerId)) return false;
         return activeSessions.get(playerId).getSessionToken().equals(sessionToken);
     }
+
 
     /**
      * Record detailing a user trying to login/authenticate.
